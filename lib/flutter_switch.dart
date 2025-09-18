@@ -43,6 +43,8 @@ class FlutterSwitch extends StatefulWidget {
     this.inactiveIcon,
     this.duration = const Duration(milliseconds: 200),
     this.disabled = false,
+    this.activeTextStyle,
+    this.inactiveTextStyle,
   })  : assert(
             (switchBorder == null || activeSwitchBorder == null) &&
                 (switchBorder == null || inactiveSwitchBorder == null),
@@ -251,6 +253,16 @@ class FlutterSwitch extends StatefulWidget {
   /// Defaults to the value of false.
   final bool disabled;
 
+  /// The text style to use on the text value when the switch is on.
+  /// This parameter is only necessary when [showOnOff] property is true.
+  /// The use of this overrides the [activeTextColor] and [activeTextFontWeight] properties.
+  final TextStyle? activeTextStyle;
+
+  /// The text style to use on the text value when the switch is off.
+  /// /// This parameter is only necessary when [showOnOff] property is true.
+  /// The use of this overrides the [inactiveTextColor] and [inactiveTextFontWeight] properties.
+  final TextStyle? inactiveTextStyle;
+
   @override
   _FlutterSwitchState createState() => _FlutterSwitchState();
 }
@@ -433,11 +445,12 @@ class _FlutterSwitchState extends State<FlutterSwitch>
     if (widget.showOnOff) {
       return Text(
         widget.activeText ?? "On",
-        style: TextStyle(
-          color: widget.activeTextColor,
-          fontWeight: _activeTextFontWeight,
-          fontSize: widget.valueFontSize,
-        ),
+        style: widget.activeTextStyle ??
+            TextStyle(
+              color: widget.activeTextColor,
+              fontWeight: _activeTextFontWeight,
+              fontSize: widget.valueFontSize,
+            ),
       );
     }
 
@@ -448,11 +461,12 @@ class _FlutterSwitchState extends State<FlutterSwitch>
     if (widget.showOnOff) {
       return Text(
         widget.inactiveText ?? "Off",
-        style: TextStyle(
-          color: widget.inactiveTextColor,
-          fontWeight: _inactiveTextFontWeight,
-          fontSize: widget.valueFontSize,
-        ),
+        style: widget.inactiveTextStyle ??
+            TextStyle(
+              color: widget.inactiveTextColor,
+              fontWeight: _inactiveTextFontWeight,
+              fontSize: widget.valueFontSize,
+            ),
         textAlign: TextAlign.right,
       );
     }
