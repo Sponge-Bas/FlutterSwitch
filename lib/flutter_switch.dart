@@ -45,6 +45,8 @@ class FlutterSwitch extends StatefulWidget {
     this.disabled = false,
     this.activeTextStyle,
     this.inactiveTextStyle,
+    this.activeTextAlignment = Alignment.centerLeft,
+    this.inactiveTextAlignment = Alignment.centerLeft,
   })  : assert(
             (switchBorder == null || activeSwitchBorder == null) &&
                 (switchBorder == null || inactiveSwitchBorder == null),
@@ -263,6 +265,12 @@ class FlutterSwitch extends StatefulWidget {
   /// The use of this overrides the [inactiveTextColor] and [inactiveTextFontWeight] properties.
   final TextStyle? inactiveTextStyle;
 
+  /// The alignment of the text when the switch is on.
+  final Alignment activeTextAlignment;
+
+  /// The alignment of the text when the switch is off.
+  final Alignment inactiveTextAlignment;
+
   @override
   _FlutterSwitchState createState() => _FlutterSwitchState();
 }
@@ -443,14 +451,17 @@ class _FlutterSwitchState extends State<FlutterSwitch>
 
   Widget get _activeText {
     if (widget.showOnOff) {
-      return Text(
-        widget.activeText ?? "On",
-        style: widget.activeTextStyle ??
-            TextStyle(
-              color: widget.activeTextColor,
-              fontWeight: _activeTextFontWeight,
-              fontSize: widget.valueFontSize,
-            ),
+      return Align(
+        alignment: widget.activeTextAlignment,
+        child: Text(
+          widget.activeText ?? "On",
+          style: widget.activeTextStyle ??
+              TextStyle(
+                color: widget.activeTextColor,
+                fontWeight: _activeTextFontWeight,
+                fontSize: widget.valueFontSize,
+              ),
+        ),
       );
     }
 
@@ -459,15 +470,18 @@ class _FlutterSwitchState extends State<FlutterSwitch>
 
   Widget get _inactiveText {
     if (widget.showOnOff) {
-      return Text(
-        widget.inactiveText ?? "Off",
-        style: widget.inactiveTextStyle ??
-            TextStyle(
-              color: widget.inactiveTextColor,
-              fontWeight: _inactiveTextFontWeight,
-              fontSize: widget.valueFontSize,
-            ),
-        textAlign: TextAlign.right,
+      return Align(
+        alignment: widget.inactiveTextAlignment,
+        child: Text(
+          widget.inactiveText ?? "Off",
+          style: widget.inactiveTextStyle ??
+              TextStyle(
+                color: widget.inactiveTextColor,
+                fontWeight: _inactiveTextFontWeight,
+                fontSize: widget.valueFontSize,
+              ),
+          textAlign: TextAlign.right,
+        ),
       );
     }
 
